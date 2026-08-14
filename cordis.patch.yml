@@ -1,0 +1,8 @@
+# thinking-level-override's dsh profile bundle patch (declared by the
+# `dsh.bundle.patch` manifest field): applied over the earlier layers when
+# this package appears in a profile's `dsh.profile.bundles` list. It inserts
+# the override plugin; users tune `config` (rules, onUnsupported) from their
+# profile's own cordis.patch.yml or a --patch overlay.
+- insert:
+    - id: thinking-level-override
+      name: dsh-thinking-level-override

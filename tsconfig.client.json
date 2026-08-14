@@ -1,0 +1,31 @@
+{
+  "extends": "../deepseek-harness/tsconfig.base.json",
+  "compilerOptions": {
+    "composite": false,
+    "declaration": false,
+    "declarationMap": false,
+    "incremental": false,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "lib": ["ES2024", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
+    "paths": {
+      "@deepseek-ai/cordis": ["../deepseek-harness/vendor/cordis/lib/types/index.d.ts"],
+      "@deepseek-ai/cosmokit": ["../deepseek-harness/vendor/cosmokit/lib/types/index.d.ts"],
+      "@deepseek-ai/schemastery": ["../deepseek-harness/vendor/schemastery/lib/types/index.d.ts"],
+      "@deepseek-ai/dsh-api-remotes/client": ["../deepseek-harness/packages/api/remotes/lib/types/client/index.d.ts"],
+      "@deepseek-ai/dsh-api-remotes/types": ["../deepseek-harness/packages/api/remotes/lib/types/types.d.ts"],
+      "@deepseek-ai/dsh-client-connection/client": ["../deepseek-harness/packages/client/connection/lib/types/client/index.d.ts"],
+      "@deepseek-ai/dsh-client-locale/client": ["../deepseek-harness/packages/client/locale/lib/types/client/index.d.ts"],
+      "@deepseek-ai/dsh-client-runtime/client": ["../deepseek-harness/packages/client/runtime/lib/types/client/index.d.ts"],
+      "@deepseek-ai/dsh-client-ui-settings/client": ["../deepseek-harness/packages/client/ui-settings/lib/types/client/index.d.ts"],
+      "@deepseek-ai/dsh-client-ui-slots": ["../deepseek-harness/packages/client/ui-slots/lib/types/index.d.ts"],
+      "@deepseek-ai/dsh-client-ui-primitives": ["../deepseek-harness/packages/client/ui-primitives/lib/types/index.d.ts"],
+      "@deepseek-ai/dsh-brand": ["../deepseek-harness/packages/util/brand/lib/types/index.d.ts"]
+    }
+  },
+  "include": [
+    "src/client",
+    "src/css-modules.d.ts"
+  ]
+}
