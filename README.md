@@ -83,7 +83,6 @@ After installing, restart the Web app; the **Thinking levels** entry appears in 
 
 ## Web settings page
 
-![Thinking levels settings page](assets/settings-en.png)
 ![Thinking levels settings page](assets/settings-en-full.png)
 
 The package ships a browser half (`dsh.client` declaration, `./client` entry) that renders a **Thinking levels** entry in the Web Settings nav, directly below **Models**.
