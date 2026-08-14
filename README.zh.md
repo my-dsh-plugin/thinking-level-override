@@ -83,6 +83,9 @@ allowBuilds:
 
 ## Web 设置页面
 
+![思考等级设置页](assets/settings.png)
+![思考等级设置页](assets/settings-full.png)
+
 本包同时提供浏览器端（`dsh.client` 声明 + `./client` 入口），在 Web 设置导航的 **"模型"** 正下方渲染 **"思考等级"** 条目。
 
 ### 勾选可提供的等级
