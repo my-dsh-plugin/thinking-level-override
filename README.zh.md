@@ -96,9 +96,9 @@ allowBuilds:
 
 取消勾选即移除该等级；全部取消则恢复模型继承的默认行为。页面只写 `reasoningEfforts` 字段，模型条目本身（id、名称、上下文窗口等）不会被改动。
 
-### 编辑发送值（模型映射）
+### 编辑发送值（思考等级映射）
 
-有些网关使用自己的等级词表。打开**"模型映射"**开关（默认关闭）后，每个已勾选的等级旁边会出现内联文本框，填写该等级实际发送的值——默认是等级名，`off` 显示为空白（发送空值）：
+有些网关使用自己的等级词表。打开**"思考等级映射"**开关（默认关闭）后，每个已勾选的等级旁边会出现内联文本框，填写该等级实际发送的值——默认是等级名，`off` 显示为空白（发送空值）：
 
 ```yaml
 # 页面写入的内容：off 勾选（留空）、high 勾选并填 "high"、
@@ -116,7 +116,7 @@ llm-pi-ai:
 
 已有手写拼写会被保留——只有新勾选的等级才写入等级名作为默认拼写，非 off 等级留空时回退为等级名。两个来自适配器 schema 的约束：键必须是七个等级之一（pi-ai 的等级集 `off/minimal/low/medium/high/xhigh/max`——像 `ultra` 这样的键会在写入时被拒绝），且只有 `off` 允许留空值（发送空值）。关闭开关只是隐藏编辑区，已保存的等级与发送值继续生效。`settings.yaml` 仍是权威文档；页面通过同一缝隙写入。
 
-> **仅"模型映射"编辑器需要：设置暴露白名单。** Web 客户端只能看到并编辑 harness API 网关明确允许的设置命名空间，`dsh-host-apiproxy` 把该边界硬编码在 `WEB_SETTINGS_NAMESPACES`。等级勾选写入的是 pi-ai 命名空间（属于模型供应商，默认就在边界内），**不打补丁也能用**；只有"模型映射"开关和编辑区存放在插件自己的命名空间里——不打补丁时页面优雅降级：开关位置显示一条提示，等级勾选照常工作，规则也仍可通过 `settings.yaml` 热加载编辑。要启用映射编辑器，在 checkout 的 `packages/host/apiproxy/src/api-proxy.ts` 数组中加入 `'thinking-level-override'`，重建并从该 checkout 启动 GUI：
+> **仅"思考等级映射"编辑器需要：设置暴露白名单。** Web 客户端只能看到并编辑 harness API 网关明确允许的设置命名空间，`dsh-host-apiproxy` 把该边界硬编码在 `WEB_SETTINGS_NAMESPACES`。等级勾选写入的是 pi-ai 命名空间（属于模型供应商，默认就在边界内），**不打补丁也能用**；只有"思考等级映射"开关和编辑区存放在插件自己的命名空间里——不打补丁时页面优雅降级：开关位置显示一条提示，等级勾选照常工作，规则也仍可通过 `settings.yaml` 热加载编辑。要启用映射编辑器，在 checkout 的 `packages/host/apiproxy/src/api-proxy.ts` 数组中加入 `'thinking-level-override'`，重建并从该 checkout 启动 GUI：
 
 ```sh
 cd ../deepseek-harness
@@ -136,7 +136,7 @@ pnpm dsh web
 
 | 字段 | 含义 | 默认值 |
 |---|---|---|
-| `enableMappings` | Web 设置页"模型映射"编辑器的总开关 | `false` |
+| `enableMappings` | Web 设置页"思考等级映射"编辑器的总开关 | `false` |
 | `onUnsupported` | 模型无法提供该等级时的处理：`fail` 保持 harness 原有行为（默认——模型自带兼容层）、`clamp` 就近取可用等级、`drop` 从请求中移除 | `fail` |
 | `rules` | 按优先级排列的覆盖规则 | `[]` |
 
@@ -223,7 +223,7 @@ dsh plugin --profile <名称> remove dsh-thinking-level-override
 
 **`llm-pi-ai: provider "X" sets modelOverrides for "Y" beside a models list`。** pi-ai 拒绝一个供应商同时声明 `models` 列表和 `modelOverrides` 字典——声明了 `models` 列表时，所有字段必须写在列表条目自身上。把覆盖条目里的字段合并进对应的 `models` 条目，然后删除 `modelOverrides` 块。
 
-**设置页显示"设置服务不可用"。** 页面在插件命名空间未暴露时会降级：等级勾选照常可用，只有"模型映射"开关位置显示不可用提示（白名单默认放行 llm-pi-ai 等模型供应商命名空间）。要使用映射编辑器，按 [Web 设置页面](#web-设置页面) 的说明打补丁；打补丁前直接编辑 `settings.yaml` 即可，规则两种方式都热加载。
+**设置页显示"设置服务不可用"。** 页面在插件命名空间未暴露时会降级：等级勾选照常可用，只有"思考等级映射"开关位置显示不可用提示（白名单默认放行 llm-pi-ai 等模型供应商命名空间）。要使用映射编辑器，按 [Web 设置页面](#web-设置页面) 的说明打补丁；打补丁前直接编辑 `settings.yaml` 即可，规则两种方式都热加载。
 
 **勾选并保存了，但对话的选择器里没有等级选项。** 先确认页面提示"已保存"，再检查 `settings.yaml` 里 `llm-pi-ai.providers.<路由>.models.<id>` 下是否有 `reasoningEfforts` 块——它写在该模型自己的条目里，而不是 `modelOverrides` 块。然后重启 Web 应用让目录重新加载。
 

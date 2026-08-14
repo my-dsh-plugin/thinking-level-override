@@ -96,9 +96,9 @@ The package ships a browser half (`dsh.client` declaration, `./client` entry) th
 
 Unchecking a level removes it; clearing all levels restores the model's inherited behavior. The page writes `reasoningEfforts` into the pi-ai adapter's settings, so the model entry itself — its id, name, context window — is never touched.
 
-### Edit the wire spelling (Model mappings)
+### Edit the wire spelling (Thinking level mappings)
 
-Some gateways use their own vocabulary for the levels. With the **Model mappings** switch on (off by default), each checked level gains an inline text field for the value actually sent on the wire — the level name by default, `off` shown as blank (sends nothing):
+Some gateways use their own vocabulary for the levels. With the **Thinking level mappings** switch on (off by default), each checked level gains an inline text field for the value actually sent on the wire — the level name by default, `off` shown as blank (sends nothing):
 
 ```yaml
 # What the page writes for: off checked (blank), high checked with "high",
@@ -116,7 +116,7 @@ llm-pi-ai:
 
 Existing hand-written spellings are preserved — only newly checked levels get the level name as their default, and a blank non-off spelling falls back to the level name. Two constraints come from the adapter schema: keys must be one of the seven levels (pi-ai's level set `off/minimal/low/medium/high/xhigh/max` — a key like `ultra` is rejected at write time), and only `off` may leave its value empty (send nothing). Turning the switch off only hides the editor; saved levels and spellings keep working. `settings.yaml` remains the authoritative document; the page writes through the same seam.
 
-> **Needed only for the mappings editor: the settings-exposure allowlist.** The Web client only sees and edits settings namespaces the harness's API gateway explicitly allows; `dsh-host-apiproxy` hardcodes that boundary in `WEB_SETTINGS_NAMESPACES`. The offered-level picker writes into the pi-ai namespace, which is always exposed, so it works without any patch. Only the **Model mappings** switch and editor live in the plugin's own namespace: without the patch below the page degrades gracefully — a note replaces the switch, level selection keeps working, and the section stays fully live-editable through `settings.yaml`. To enable the mappings editor, add `'thinking-level-override'` to the array in the sibling checkout's `packages/host/apiproxy/src/api-proxy.ts`, rebuild, and run the GUI from that checkout:
+> **Needed only for the mappings editor: the settings-exposure allowlist.** The Web client only sees and edits settings namespaces the harness's API gateway explicitly allows; `dsh-host-apiproxy` hardcodes that boundary in `WEB_SETTINGS_NAMESPACES`. The offered-level picker writes into the pi-ai namespace, which is always exposed, so it works without any patch. Only the **Thinking level mappings** switch and editor live in the plugin's own namespace: without the patch below the page degrades gracefully — a note replaces the switch, level selection keeps working, and the section stays fully live-editable through `settings.yaml`. To enable the mappings editor, add `'thinking-level-override'` to the array in the sibling checkout's `packages/host/apiproxy/src/api-proxy.ts`, rebuild, and run the GUI from that checkout:
 
 ```sh
 cd ../deepseek-harness
