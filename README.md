@@ -81,6 +81,25 @@ allowBuilds:
 
 After installing, restart the Web app; the **Thinking levels** entry appears in Settings.
 
+### DeepSeek Harness Desktop — one-shot install
+
+Desktop users don't need a `dsh` CLI or a harness checkout. Run this once in a **normal
+terminal** (not inside the app's own harness shell — the app bundle and app-data dir are
+sandboxed/read-only from there, especially on macOS):
+
+```sh
+bash <(curl -Ls https://raw.githubusercontent.com/my-dsh-plugin/thinking-level-override/main/scripts/install-desktop.sh) --restart
+```
+
+The script is idempotent: pulls the plugin from GitHub (prebuilt `lib/`, nothing to build),
+appends `"thinking-level-override"` to the embedded harness `WEB_SETTINGS_NAMESPACES`
+allowlist if missing, installs it into the desktop web profile, registers the bundle, and
+restarts the app (`--restart`). The **Thinking levels** entry then appears in Settings.
+Overrides: `DSH_DESKTOP_APP`, `DSH_DESKTOP_HOME`, `DSH_SKILL_SOURCE_DIR`.
+
+> End users of a released desktop build need no manual steps — upgrade and restart; the
+> plugin is seeded and the allowlist is already in the shipped harness.
+
 ## Web settings page
 
 ![Thinking levels settings page](assets/settings-en-full.png)

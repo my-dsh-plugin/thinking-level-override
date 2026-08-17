@@ -81,6 +81,23 @@ allowBuilds:
 
 安装后重启 Web 应用，设置里即出现 **"思考等级"** 条目。
 
+### DeepSeek Harness Desktop(桌面端)一键安装
+
+桌面端用户无需 `dsh` CLI 或 harness checkout。在**普通终端**执行一次(不要在 App 自带的
+harness 会话里跑——那里的应用安装目录和 App 数据目录是沙箱/只读的,macOS 尤其如此):
+
+```sh
+bash <(curl -Ls https://raw.githubusercontent.com/my-dsh-plugin/thinking-level-override/main/scripts/install-desktop.sh) --restart
+```
+
+脚本幂等:从 GitHub 拉取插件(预编译 `lib/`,无需构建);若需要则把
+`"thinking-level-override"` 加入内嵌 harness 的 `WEB_SETTINGS_NAMESPACES` 白名单;装入桌面
+web profile 并注册 bundle;`--restart` 重启 App。之后设置里出现 **"思考等级"** 条目。
+可用环境变量覆盖:`DSH_DESKTOP_APP`、`DSH_DESKTOP_HOME`、`DSH_SKILL_SOURCE_DIR`。
+
+> 使用已发布桌面包的最终用户无需任何手动步骤 —— 升级重启即可;插件已 seed,白名单已在
+> 随包 harness 中。
+
 ## Web 设置页面
 
 ![思考等级设置页](assets/settings-full.png)
